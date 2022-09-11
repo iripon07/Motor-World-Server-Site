@@ -46,13 +46,29 @@ async function run() {
       res.send(result);
     });
 
+
+
+    //Update Inventory
+    app.put("/manage/:id", async(req, res) => {
+      const id = req.params.id;
+      const updateQuantity = req.body;
+      const filter = {_id: ObjectId(id)};
+      const options = {upsert: true}
+      const updateDoc = {
+        $set: {
+          quantity: updateQuantity.quantity
+        }
+      };
+      const result = await manageCollection.updateOne(filter, updateDoc, options);
+      res.send(result);
+    });
+
+
     //Get Single Inventory using by Id;
     app.get("/manage/:id", async (req, res) => {
       const id = req.params.id;
-      console.log(id);
       const query = { _id: ObjectId(id) };
       const result = await manageCollection.findOne(query);
-      console.log(result);
       res.send(result);
     });
   } finally {
