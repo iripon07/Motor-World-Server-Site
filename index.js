@@ -46,6 +46,16 @@ async function run() {
       res.send(result);
     });
 
+    //get inventories by email
+    app.get("/manage", async(req, res) => {
+      const email = req.query.email;
+      const query = {email: email}
+      const cursor = manageCollection.find(query);
+      const result = await cursor.toArray();
+      res.send(result);
+
+    })
+
 
 
     //Update Inventory
